@@ -1,18 +1,19 @@
 'use client';
-// Layout components
-import { usePathname } from 'next/navigation';
-import { useContext, useState } from 'react';
-import routes from 'routes';
+
 import {
   getActiveNavbar,
   getActiveRoute,
   isWindowAvailable,
 } from 'utils/navigation';
-import React from 'react';
-import { Portal } from '@chakra-ui/portal';
+import { useContext, useState } from 'react';
+
 import Navbar from 'components/navbar';
+import { Portal } from '@chakra-ui/portal';
+import React from 'react';
 import Sidebar from 'components/sidebar';
-import Footer from 'components/footer/Footer';
+import routes from 'routes';
+// Layout components
+import { usePathname } from 'next/navigation';
 
 export default function Admin({ children }: { children: React.ReactNode }) {
   // states and functions
@@ -38,9 +39,6 @@ export default function Admin({ children }: { children: React.ReactNode }) {
             />
             <div className="mx-auto min-h-screen p-2 !pt-[10px] md:p-2">
               {children}
-            </div>
-            <div className="p-3">
-              <Footer />
             </div>
           </div>
         </main>

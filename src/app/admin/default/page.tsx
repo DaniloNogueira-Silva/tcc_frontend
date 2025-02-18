@@ -1,21 +1,26 @@
 'use client';
-import MiniCalendar from 'components/calendar/MiniCalendar';
-import WeeklyRevenue from 'components/admin/default/WeeklyRevenue';
-import TotalSpent from 'components/admin/default/TotalSpent';
-import PieChartCard from 'components/admin/default/PieChartCard';
-import { IoMdHome } from 'react-icons/io';
-import { IoDocuments } from 'react-icons/io5';
+
 import { MdBarChart, MdDashboard } from 'react-icons/md';
 
-import Widget from 'components/widget/Widget';
 import CheckTable from 'components/admin/default/CheckTable';
 import ComplexTable from 'components/admin/default/ComplexTable';
 import DailyTraffic from 'components/admin/default/DailyTraffic';
+import { IoDocuments } from 'react-icons/io5';
+import { IoMdHome } from 'react-icons/io';
+import MiniCalendar from 'components/calendar/MiniCalendar';
+import PieChartCard from 'components/admin/default/PieChartCard';
 import TaskCard from 'components/admin/default/TaskCard';
+import TotalSpent from 'components/admin/default/TotalSpent';
+import WeeklyRevenue from 'components/admin/default/WeeklyRevenue';
+import Widget from 'components/widget/Widget';
 import tableDataCheck from 'variables/data-tables/tableDataCheck';
 import tableDataComplex from 'variables/data-tables/tableDataComplex';
+import useAuth from 'useAuth';
 
 const Dashboard = () => {
+  const isAuthenticated = useAuth();
+
+  if (!isAuthenticated) return null;
   return (
     <div>
       {/* Card widget */}
