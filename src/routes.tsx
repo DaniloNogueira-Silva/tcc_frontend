@@ -42,13 +42,6 @@ const routes = [
     icon: <MdPerson className="h-6 w-6" />,
     show: true, // Disponível para todos
   },
-  {
-    name: 'Painel do Professor',
-    layout: '/admin',
-    path: 'professor-dashboard',
-    icon: <MdHome className="h-6 w-6" />,
-    show: true, // Apenas para professores
-  },
 ];
 
 export default routes;
