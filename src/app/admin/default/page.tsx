@@ -15,12 +15,14 @@ import WeeklyRevenue from 'components/admin/default/WeeklyRevenue';
 import Widget from 'components/widget/Widget';
 import tableDataCheck from 'variables/data-tables/tableDataCheck';
 import tableDataComplex from 'variables/data-tables/tableDataComplex';
-import useAuth from 'useAuth';
+import useTeacherAuth from 'auth/useTeacherAuth';
 
 const Dashboard = () => {
-  const isAuthenticated = useAuth();
+  // protegendo rotas
+  const isAuthorized = useTeacherAuth();
+  if (isAuthorized === null) return null;
+  if (!isAuthorized) return <p>Acesso negado.</p>;
 
-  if (!isAuthenticated) return null;
   return (
     <div>
       {/* Card widget */}

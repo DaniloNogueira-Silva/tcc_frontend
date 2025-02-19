@@ -24,7 +24,7 @@ function SignInDefault() {
 
       sessionStorage.setItem('token', data);
 
-      router.push('/admin/default');
+      router.push('/admin/profile');
     } catch (error) {
       console.error(error);
       alert('Erro ao realizar login. Por favor, verifique suas credenciais.');
