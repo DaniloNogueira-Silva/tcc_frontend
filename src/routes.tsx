@@ -4,6 +4,8 @@ import {
   MdHome,
   MdOutlineShoppingCart,
   MdPerson,
+  MdAssignment,
+  MdFitnessCenter
 } from 'react-icons/md';
 
 import { JwtService } from 'auth/jwtService';
@@ -40,6 +42,20 @@ const routes = [
     layout: '/admin',
     path: 'profile',
     icon: <MdPerson className="h-6 w-6" />,
+    show: true, // Disponível para todos
+  },
+  {
+    name: 'Aulas',
+    layout: '/admin',
+    path: 'classes',
+    icon: <MdAssignment className="h-6 w-6" />,
+    show: true, // Disponível para todos
+  },
+  {
+    name: 'Exercícios',
+    layout: '/admin',
+    path: 'exercises',
+    icon: <MdFitnessCenter className="h-6 w-6" />,
     show: true, // Disponível para todos
   },
 ];
