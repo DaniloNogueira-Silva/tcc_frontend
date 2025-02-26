@@ -1,13 +1,13 @@
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 export class JwtService {
   private secretKey: string | undefined = process.env.NEXT_PUBLIC_JWT_SECRET;
 
-  decodeToken(): any {
+  async decodeToken() {
     if (typeof window === 'undefined') return null;
 
     const token = sessionStorage.getItem('token');
-    
+
     if (!token) {
       console.warn('Nenhum token encontrado no sessionStorage.');
       return null;
@@ -22,13 +22,13 @@ export class JwtService {
     }
   }
 
-  getUserId(): string | null {
-    const decodedToken = this.decodeToken();
+  async getUserId() {
+    const decodedToken = await this.decodeToken();
     return decodedToken?.id || null;
   }
 
-  getUserRole(): boolean {
-    const decodedToken = this.decodeToken();
+  async getUserRole() {
+    const decodedToken = await this.decodeToken();
     console.log('decodedToken', decodedToken);
     return decodedToken?.is_teacher || false;
   }

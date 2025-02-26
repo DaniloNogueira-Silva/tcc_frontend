@@ -1,19 +1,20 @@
-import React from 'react';
-import Dropdown from 'components/dropdown';
-import { FiAlignJustify } from 'react-icons/fi';
-import NavLink from 'components/link/NavLink';
-import navbarimage from '/public/img/layout/Navbar.png';
-import { BsArrowBarUp } from 'react-icons/bs';
-import { FiSearch } from 'react-icons/fi';
-import { RiMoonFill, RiSunFill } from 'react-icons/ri';
 // import { RiMoonFill, RiSunFill } from 'react-icons/ri';
 // import Configurator from './Configurator';
 import {
-  IoMdNotificationsOutline,
   IoMdInformationCircleOutline,
+  IoMdNotificationsOutline,
 } from 'react-icons/io';
-import avatar from '/public/img/avatars/avatar4.png';
+import { RiMoonFill, RiSunFill } from 'react-icons/ri';
+
+import { BsArrowBarUp } from 'react-icons/bs';
+import Dropdown from 'components/dropdown';
+import { FiAlignJustify } from 'react-icons/fi';
+import { FiSearch } from 'react-icons/fi';
 import Image from 'next/image';
+import NavLink from 'components/link/NavLink';
+import React from 'react';
+import avatar from '/public/img/avatars/avatar4.png';
+import navbarimage from '/public/img/layout/Navbar.png';
 
 const Navbar = (props: {
   onOpenSidenav: () => void;
@@ -219,7 +220,7 @@ const Navbar = (props: {
                 Newsletter Settings
               </a>
               <a
-                href=" "
+                href="/auth/sign-in"
                 className="mt-3 text-sm font-medium text-red-500 hover:text-red-500"
               >
                 Log Out
