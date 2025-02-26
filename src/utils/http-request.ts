@@ -12,7 +12,7 @@ export class HttpRequest {
 
   async login(email: string, password: string): Promise<any> {
     try {
-      const response = await axios.post(`${this.baseUrl}/user/auth`, {
+      const response = await axios.post(`${this.baseUrl}/auth/login`, {
         email,
         password,
       });

@@ -72,8 +72,8 @@ function SignInDefault() {
                 type="submit"
                 disabled={loading}
                 className={`linear w-full rounded-xl py-3 text-base font-medium text-white transition duration-200 ${loading
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-brand-500 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:hover:bg-brand-300 dark:active:bg-brand-200'
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-brand-500 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:hover:bg-brand-300 dark:active:bg-brand-200'
                   }`}
               >
                 {loading ? 'Entrando...' : 'Entrar'}
