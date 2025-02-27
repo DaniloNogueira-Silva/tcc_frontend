@@ -1,9 +1,29 @@
-import avatar from '/public/img/avatars/avatar11.png';
-import banner from '/public/img/profile/banner.png';
-import Card from 'components/card';
-import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
-const Banner = () => {
+import Card from 'components/card';
+import { HttpRequest } from 'utils/http-request';
+import Image from 'next/image';
+import avatar from '/public/img/avatars/avatarSimmmple.png';
+import banner from '/public/img/profile/banner.png';
+
+const Banner = (data: { user: { name: string; role: string; email: string; _id: string; } }) => {
+  const [statistics, setStatistics] = useState(null);
+  const httpRequest = new HttpRequest();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const getStatistics = await httpRequest.getStatistics();
+
+        setStatistics(getStatistics);
+      } catch (error) {
+        console.error('Erro ao buscar as estatísticas:', error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
   return (
     <Card extra={'items-center w-full h-full p-[16px] bg-cover'}>
       {/* Background and profile */}
@@ -25,30 +45,31 @@ const Banner = () => {
       {/* Name and position */}
       <div className="mt-16 flex flex-col items-center">
         <h4 className="text-xl font-bold text-navy-700 dark:text-white">
-          Adela Parkson
+          {data.user?.name}
         </h4>
-        <h5 className="text-base font-normal text-gray-600">Product Manager</h5>
+        <h5 className="text-base font-normal text-gray-600">{data.user?.role}</h5>
       </div>
 
       {/* Post followers */}
       <div className="mb-3 mt-6 flex gap-4 md:!gap-14">
         <div className="flex flex-col items-center justify-center">
           <h4 className="text-2xl font-bold text-navy-700 dark:text-white">
-            17
+            {statistics?.maps}
           </h4>
-          <p className="text-sm font-normal text-gray-600">Posts</p>
+          <p className="text-sm font-normal text-gray-600">Mapas</p>
         </div>
         <div className="flex flex-col items-center justify-center">
           <h4 className="text-2xl font-bold text-navy-700 dark:text-white">
-            9.7K
+            {statistics?.exercises}
+
           </h4>
-          <p className="text-sm font-normal text-gray-600">Followers</p>
+          <p className="text-sm font-normal text-gray-600">Exercícios</p>
         </div>
         <div className="flex flex-col items-center justify-center">
           <h4 className="text-2xl font-bold text-navy-700 dark:text-white">
-            434
+          {statistics?.students}
           </h4>
-          <p className="text-sm font-normal text-gray-600">Following</p>
+          <p className="text-sm font-normal text-gray-600">Alunos</p>
         </div>
       </div>
     </Card>

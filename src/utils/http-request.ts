@@ -30,7 +30,7 @@ export class HttpRequest {
     isTeacher: boolean,
   ): Promise<any> {
     try {
-      const response = await axios.post(`${this.baseUrl}/user`, {
+      const response = await axios.post(`${this.baseUrl}/users`, {
         name,
         email,
         password,
@@ -48,7 +48,7 @@ export class HttpRequest {
 
   async getAllLessonPlans() {
     try {
-      const token = this.getToken(); 
+      const token = this.getToken();
 
       const response = await axios.get(`${this.baseUrl}/lessonPlan`, {
         headers: {
@@ -58,7 +58,7 @@ export class HttpRequest {
 
       return response.data;
     } catch (error) {
-      console.error("Erro ao buscar planos de aula:", error);
+      console.error('Erro ao buscar planos de aula:', error);
       throw error;
     }
   }
@@ -100,6 +100,40 @@ export class HttpRequest {
     } catch (error) {
       console.error('Erro ao criar aula:', error);
       throw new Error('Ocorreu um erro ao criar a aula: ' + error);
+    }
+  }
+
+  async getUser() {
+    try {
+      const token = this.getToken();
+
+      const response = await axios.get(`${this.baseUrl}/users`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao buscar usuário por id:', error);
+      throw error;
+    }
+  }
+
+  async getStatistics() {
+    try {
+      const token = this.getToken();
+
+      const response = await axios.get(`${this.baseUrl}/users/statics`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao buscar usuário por id:', error);
+      throw error;
     }
   }
 }

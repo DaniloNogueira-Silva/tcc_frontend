@@ -1,11 +1,12 @@
 // Icon Imports
+
 import {
+  MdAssignment,
   MdBarChart,
+  MdFitnessCenter,
   MdHome,
   MdOutlineShoppingCart,
-  MdPerson,
-  MdAssignment,
-  MdFitnessCenter
+  MdPerson
 } from 'react-icons/md';
 
 import { JwtService } from 'auth/jwtService';
@@ -38,7 +39,7 @@ const routes = [
     show: true, // Disponível para todos
   },
   {
-    name: 'Profile',
+    name: 'Perfil',
     layout: '/admin',
     path: 'profile',
     icon: <MdPerson className="h-6 w-6" />,
