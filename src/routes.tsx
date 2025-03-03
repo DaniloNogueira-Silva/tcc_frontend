@@ -5,6 +5,7 @@ import {
   MdBarChart,
   MdFitnessCenter,
   MdHome,
+  MdMap,
   MdOutlineShoppingCart,
   MdPerson
 } from 'react-icons/md';
@@ -21,7 +22,14 @@ const routes = [
     layout: '/admin',
     path: 'default',
     icon: <MdHome className="h-6 w-6" />,
-    show: isTeacher,  // Apenas para professores
+    show: isTeacher, 
+  },
+  {
+    name: "Plano de aulas",
+    layout: "/admin",
+    path: 'plans',
+    icon: <MdMap className="h-6 w-6" />,
+    show: true,  
   },
   {
     name: 'NFT Marketplace',
@@ -29,35 +37,35 @@ const routes = [
     path: 'nft-marketplace',
     icon: <MdOutlineShoppingCart className="h-6 w-6" />,
     secondary: true,
-    show: true, // Disponível para todos
+    show: true,
   },
   {
     name: 'Data Tables',
     layout: '/admin',
     icon: <MdBarChart className="h-6 w-6" />,
     path: 'data-tables',
-    show: true, // Disponível para todos
+    show: true,
   },
   {
     name: 'Perfil',
     layout: '/admin',
     path: 'profile',
     icon: <MdPerson className="h-6 w-6" />,
-    show: true, // Disponível para todos
+    show: true, 
   },
   {
     name: 'Aulas',
     layout: '/admin',
     path: 'classes',
     icon: <MdAssignment className="h-6 w-6" />,
-    show: true, // Disponível para todos
+    show: true, 
   },
   {
     name: 'Exercícios',
     layout: '/admin',
     path: 'exercises',
     icon: <MdFitnessCenter className="h-6 w-6" />,
-    show: true, // Disponível para todos
+    show: true,
   },
 ];
 

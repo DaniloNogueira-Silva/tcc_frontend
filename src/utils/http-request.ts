@@ -136,4 +136,28 @@ export class HttpRequest {
       throw error;
     }
   }
+
+  async createLessonPlan(name: string, theme: string): Promise<any> {
+    try {
+      const token = this.getToken();
+
+      const response = await axios.post(
+        `${this.baseUrl}/lesson-plans`,
+        {
+          name,
+          theme,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao criar plano de aula:', error);
+      throw new Error('Ocorreu um erro ao criar plano de aula: ' + error);
+    }
+  }
 }
