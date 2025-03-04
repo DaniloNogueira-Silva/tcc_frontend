@@ -1,22 +1,49 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { HttpRequest } from 'utils/http-request';
 import InputField from 'components/fields/InputField';
+import LessonPlanCard from 'components/admin/lesson-plans/Card';
 import ModalButton from 'components/button/ModalButton';
-import { useState } from 'react';
 import useTeacherAuth from 'auth/useTeacherAuth';
+
+export interface ILessonPlan {
+  _id: string;
+  name: string;
+  theme: string;
+  teacher_id: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const Plans = () => {
   // protegendo rotas
   const isAuthorized = useTeacherAuth();
 
-  // estados - SEMPRE devem ser chamados na mesma ordem em TODAS as renderizações
+  // estados
   const [name, setName] = useState("");
   const [theme, setTheme] = useState("");
   const [loading, setLoading] = useState(false);
+  const [lessonPlans, setLessonPlans] = useState<ILessonPlan[]>([]);
+  const httpRequest = new HttpRequest();
 
+  useEffect(() => {
+    const fetchLessonPlans = async () => {
+      try {
+        const allLessonPlans = await httpRequest.getAllLessonPlans();
+        setLessonPlans(allLessonPlans);
+      } catch (error) {
+        console.error('Erro ao carregar planos de aulas:', error);
+      }
+    };
+
+    fetchLessonPlans();
+  }, []);
+
+  // Evita que o componente quebre antes dos hooks serem processados
   if (isAuthorized === null) {
-    return <p>Carregando...</p>; // Alterado para evitar interrupção da renderização
+    return <p>Carregando...</p>;
   }
 
   if (!isAuthorized) {
@@ -26,11 +53,19 @@ const Plans = () => {
   const handleCreateLessonPlan = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
-      const httpRequest = new HttpRequest();
       await httpRequest.createLessonPlan(name, theme);
-
+  
+      const modalElement = document.querySelector(".modal");
+      if (modalElement) {
+        modalElement.classList.remove("open");
+      }
+  
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+  
     } catch (error) {
       console.error("Erro ao criar plano de aula:", error);
       alert("Ocorreu um erro ao criar plano de aula.");
@@ -38,6 +73,7 @@ const Plans = () => {
       setLoading(false);
     }
   };
+  
 
   return (
     <div>
@@ -80,6 +116,10 @@ const Plans = () => {
             </form>
           </div>
         </ModalButton>
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <LessonPlanCard lessonPlansData={lessonPlans} />
       </div>
     </div>
   );

@@ -106,7 +106,7 @@ export class HttpRequest {
   async getAllClasses() {
     try {
       const token = this.getToken();
-      
+
       const response = await axios.get(`${this.baseUrl}/classes`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -175,6 +175,40 @@ export class HttpRequest {
     } catch (error) {
       console.error('Erro ao criar plano de aula:', error);
       throw new Error('Ocorreu um erro ao criar plano de aula: ' + error);
+    }
+  }
+
+  async getLessonPlans() {
+    try {
+      const token = this.getToken();
+
+      const response = await axios.get(`${this.baseUrl}/lesson-plans`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao buscar planos de aula:', error);
+      throw new Error('Ocorreu um erro ao buscar planos de aula: ' + error);
+    }
+  }
+
+  async deleteLessonPlan(id: string) {
+    try {
+      const token = this.getToken();
+
+      await axios.delete(`${this.baseUrl}/lesson-plans/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return;
+    } catch (error) {
+      console.error('Erro ao deletar plano de aula:', error);
+      throw new Error('Ocorreu um erro ao deletar plano de aula: ' + error);
     }
   }
 }
