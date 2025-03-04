@@ -50,7 +50,7 @@ export class HttpRequest {
     try {
       const token = this.getToken();
 
-      const response = await axios.get(`${this.baseUrl}/lessonPlan`, {
+      const response = await axios.get(`${this.baseUrl}/lesson-plans`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -66,27 +66,27 @@ export class HttpRequest {
   async createClass(
     name: string,
     due_date: string,
-    url: string,
+    description: string,
+    links: string,
     points: number,
     type: string,
     teacher_id: string,
     lesson_plan_id: string,
-    extra_lesson_id: string | null = null,
   ): Promise<any> {
     try {
       const token = this.getToken();
 
       const response = await axios.post(
-        `${this.baseUrl}/class`,
+        `${this.baseUrl}/classes`,
         {
           name,
           due_date,
-          url,
+          description,
+          links,
           points,
           type,
           teacher_id,
           lesson_plan_id,
-          extra_lesson_id,
         },
         {
           headers: {
@@ -100,6 +100,23 @@ export class HttpRequest {
     } catch (error) {
       console.error('Erro ao criar aula:', error);
       throw new Error('Ocorreu um erro ao criar a aula: ' + error);
+    }
+  }
+
+  async getAllClasses() {
+    try {
+      const token = this.getToken();
+      
+      const response = await axios.get(`${this.baseUrl}/classes`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao buscar usuário por id:', error);
+      throw error;
     }
   }
 
