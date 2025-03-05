@@ -1,10 +1,9 @@
 'use client';
 
-import Checkbox from 'components/checkbox';
 import Default from 'components/auth/variants/DefaultAuthLayout';
 import { HttpRequest } from 'utils/http-request';
 import InputField from 'components/fields/InputField';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 function SignInDefault() {
@@ -12,7 +11,7 @@ function SignInDefault() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isTeacher, setIsTeacher] = useState(false);
+    const [role, setRole] = useState('STUDENT'); // Definição de valor padrão
     const [loading, setLoading] = useState(false);
 
     const router = useRouter();
@@ -28,7 +27,7 @@ function SignInDefault() {
                 name,
                 email,
                 password,
-                isTeacher,
+                role, // Garante que o role é enviado corretamente
             );
 
             router.push('/auth/sign-in');
@@ -84,29 +83,26 @@ function SignInDefault() {
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                             />
 
-                            {/* Checkbox para Professor */}
+                            {/* Select para Professor ou Estudante */}
                             <div className="mb-6 flex items-center">
-                                <Checkbox
-                                    id="is_teacher"
-                                    checked={isTeacher}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                        setIsTeacher(e.target.checked)
-                                    }
-                                />
-                                <label
-                                    htmlFor="is_teacher"
-                                    className="ml-2 text-gray-700 dark:text-white cursor-pointer"
+                                <label htmlFor="role" className="mr-2 font-medium">Função:</label>
+                                <select
+                                    id="role"
+                                    value={role}
+                                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setRole(e.target.value)}
+                                    className="border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 >
-                                    Sou Professor
-                                </label>
+                                    <option value="STUDENT">Estudante</option>
+                                    <option value="TEACHER">Professor</option>
+                                </select>
                             </div>
 
                             <button
                                 type="submit"
                                 disabled={loading}
                                 className={`linear w-full rounded-xl py-3 text-base font-medium text-white transition duration-200 ${loading
-                                        ? 'bg-gray-400 cursor-not-allowed'
-                                        : 'bg-brand-500 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:hover:bg-brand-300 dark:active:bg-brand-200'
+                                    ? 'bg-gray-400 cursor-not-allowed'
+                                    : 'bg-brand-500 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:hover:bg-brand-300 dark:active:bg-brand-200'
                                     }`}
                             >
                                 {loading ? 'Enviando...' : 'Criar Conta'}

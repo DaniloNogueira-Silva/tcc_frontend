@@ -14,7 +14,7 @@ import { JwtService } from 'auth/jwtService';
 import React from 'react';
 
 const jwtService = new JwtService();
-const isTeacher = jwtService.getUserRole();
+const isTeacher = await jwtService.getUserRole();
 
 const routes = [
   {
@@ -37,14 +37,14 @@ const routes = [
     path: 'nft-marketplace',
     icon: <MdOutlineShoppingCart className="h-6 w-6" />,
     secondary: true,
-    show: true,
+    show: isTeacher,
   },
   {
     name: 'Data Tables',
     layout: '/admin',
     icon: <MdBarChart className="h-6 w-6" />,
     path: 'data-tables',
-    show: true,
+    show: isTeacher,
   },
   {
     name: 'Perfil',
@@ -58,14 +58,14 @@ const routes = [
     layout: '/admin',
     path: 'classes',
     icon: <MdAssignment className="h-6 w-6" />,
-    show: true, 
+    show: isTeacher, 
   },
   {
     name: 'Exercícios',
     layout: '/admin',
     path: 'exercises',
     icon: <MdFitnessCenter className="h-6 w-6" />,
-    show: true,
+    show: isTeacher,
   },
 ];
 

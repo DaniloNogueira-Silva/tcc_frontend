@@ -22,14 +22,14 @@ export class JwtService {
     }
   }
 
-  async getUserId() {
+  async getUserId(): Promise<string | null> {
     const decodedToken = await this.decodeToken();
-    return decodedToken?.id || null;
+    return decodedToken?._id || null;
   }
 
   async getUserRole() {
     const decodedToken = await this.decodeToken();
     console.log('decodedToken', decodedToken);
-    return decodedToken?.is_teacher || false;
+    return decodedToken?.role || false;
   }
 }

@@ -27,14 +27,14 @@ export class HttpRequest {
     name: string,
     email: string,
     password: string,
-    isTeacher: boolean,
+    role: string,
   ): Promise<any> {
     try {
       const response = await axios.post(`${this.baseUrl}/users`, {
         name,
         email,
         password,
-        is_teacher: isTeacher,
+        role,
       });
 
       console.log('response', response);
@@ -209,6 +209,30 @@ export class HttpRequest {
     } catch (error) {
       console.error('Erro ao deletar plano de aula:', error);
       throw new Error('Ocorreu um erro ao deletar plano de aula: ' + error);
+    }
+  }
+
+  async createUserMap(student_id: string, lesson_plan_id: string): Promise<any> {
+    try {
+      const token = this.getToken();
+
+      const response = await axios.post(
+        `${this.baseUrl}/user-map-progresss`,
+        {
+          student_id,
+          lesson_plan_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao vincular usuário ao plano de aula:', error);
+      throw new Error('Ocorreu um erro ao vincular usuário ao plano de aula: ' + error);
     }
   }
 }

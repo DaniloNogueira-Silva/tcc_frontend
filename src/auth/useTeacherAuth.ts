@@ -10,16 +10,20 @@ const useTeacherAuth = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    const getId = async () => {
+      if (typeof window === 'undefined') return;
 
-    const isTeacher = jwtService.getUserRole();
+      const isTeacher = await jwtService.getUserRole();
+      console.log('isTeacher', isTeacher);
+      if (!isTeacher) {
+        console.warn('Acesso negado. Redirecionando para página inicial...');
+        router.push('/auth/sign-in');
+      } else {
+        setIsAuthorized(true);
+      }
+    };
 
-    if (!isTeacher) {
-      console.warn('Acesso negado. Redirecionando para página inicial...');
-      router.push('/auth/sign-in');
-    } else {
-      setIsAuthorized(true);
-    }
+    getId();
   }, [router]);
 
   return isAuthorized;
