@@ -1,15 +1,8 @@
 import React from 'react';
-
-interface IClassData {
-  _id: string;
-  name: string;
-  description?: string;
-  points?: number;
-  due_date?: string;
-}
+import { IClass } from 'app/admin/classes/page';
 
 interface CardProps {
-  classesData: IClassData[];
+  classesData: IClass[];
 }
 
 const formatDate = (isoDate?: string): string => {
@@ -33,7 +26,7 @@ const Card = ({ classesData }: CardProps) => {
           classesData.map((classItem) => (
             <div
               key={classItem._id}
-              className="flex h-full w-full flex-col rounded-lg p-4 bg-white dark:!bg-navy-800 dark:shadow-none dark:text-white"
+              className="flex h-full w-full flex-col rounded-lg bg-white p-4 dark:!bg-navy-800 dark:text-white dark:shadow-none"
             >
               <div className="mb-3">
                 <p className="text-lg font-bold text-navy-700 dark:text-white">

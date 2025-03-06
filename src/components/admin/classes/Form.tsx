@@ -17,7 +17,7 @@ interface IGetLessonPlanResponse {
   theme: string;
 }
 
-const Form = (data: { user: { role: string; _id: string } }) => {
+const Form = () => {
   const [name, setName] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [description, setDescription] = useState('');

@@ -1,33 +1,57 @@
 'use client';
+import Card from 'components/admin/exercises/Card';
+import QuestionForm from 'components/admin/exercises/QuestionForm';
 import General from 'components/admin/profile/General';
 import ModalButton from 'components/button/ModalButton';
-import ExerciseCard from 'components/card/ExerciseCard';
+import { useEffect, useState } from 'react';
+import { HttpRequest } from 'utils/http-request';
+
+export interface IExercise {
+  _id: string;
+  statement: string;
+  type: string;
+  answer: string;
+  showAnswer: boolean;
+  teacher_id: string;
+  options?: string[];
+}
 
 const Exercises = () => {
+  const [exercises, setExercises] = useState<IExercise[]>([]);
+  const httpRequest = new HttpRequest();
+
+  useEffect(() => {
+    const fetchAllExercises = async () => {
+      try {
+        const allExercises = await httpRequest.getAllExercises();
+        console.log('Exercises obtidas:', allExercises);
+        setExercises(allExercises);
+      } catch (error) {
+        console.error('Erro ao carregar aulas:', error);
+      }
+    };
+
+    fetchAllExercises();
+  }, []);
+
   return (
     <div className="flex w-full flex-col gap-5">
-      {/* Cabeçalho com título e botão */}
       <div className="mt-3 flex items-center justify-between">
         <h1 className="text-2xl font-bold"></h1>
         <ModalButton buttonText="Criar exercício" modalTitle="Criar exercício">
-          <p>Aqui vai o formulário ou conteúdo para criar exercício</p>
+          <div className="p-4">
+            <h3 className="mb-4 text-xl font-bold">Criar Aula</h3>
+            <QuestionForm />
+          </div>
         </ModalButton>
       </div>
 
-      <div className="flex w-full flex-col gap-5 lg:grid lg:grid-cols-12">
-        <div className="col-span-12 z-20 grid grid-cols-1 gap-5 md:grid-cols-3">
-          <ExerciseCard title="Abstract Colors" price="0.91" />
-          <ExerciseCard title="ETH AI Brain" price="0.7" />
-          <ExerciseCard title="Mesh Gradients" price="2.91" />
-        </div>
-      </div>
+      <Card exercisesData={exercises} />
 
-      {/* Seções inferiores da página */}
       <div className="mb-4 grid h-full grid-cols-1 gap-5 lg:grid-cols-12">
         <div className="col-span-5 lg:col-span-6">
           <General />
         </div>
-        {/* ... resto do layout */}
       </div>
     </div>
   );

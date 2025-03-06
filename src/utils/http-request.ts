@@ -212,7 +212,10 @@ export class HttpRequest {
     }
   }
 
-  async createUserMap(student_id: string, lesson_plan_id: string): Promise<any> {
+  async createUserMap(
+    student_id: string,
+    lesson_plan_id: string,
+  ): Promise<any> {
     try {
       const token = this.getToken();
 
@@ -232,7 +235,61 @@ export class HttpRequest {
       return response.data;
     } catch (error) {
       console.error('Erro ao vincular usuário ao plano de aula:', error);
-      throw new Error('Ocorreu um erro ao vincular usuário ao plano de aula: ' + error);
+      throw new Error(
+        'Ocorreu um erro ao vincular usuário ao plano de aula: ' + error,
+      );
+    }
+  }
+
+  async getAllExercises() {
+    try {
+      const token = this.getToken();
+
+      const response = await axios.get(`${this.baseUrl}/exercises`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao buscar exercícios:', error);
+      throw new Error('Ocorreu um erro ao buscar exercícios: ' + error);
+    }
+  }
+
+  async createExercise(
+    statement: string,
+    type: string,
+    answer: string,
+    showAnswer: boolean,
+    teacher_id: string,
+    options?: string[],
+  ): Promise<any> {
+    try {
+      const token = this.getToken();
+
+      const response = await axios.post(
+        `${this.baseUrl}/exercises`,
+        {
+          statement,
+          type,
+          answer,
+          showAnswer,
+          options,
+          teacher_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao criar exercício:', error);
+      throw new Error('Ocorreu um erro ao criar exercício: ' + error);
     }
   }
 }
