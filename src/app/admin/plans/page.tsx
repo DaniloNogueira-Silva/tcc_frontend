@@ -18,8 +18,6 @@ export interface ILessonPlan {
 }
 
 const Plans = () => {
-  // protegendo rotas
-  const isAuthorized = useTeacherAuth();
 
   // estados
   const [name, setName] = useState("");
@@ -40,15 +38,6 @@ const Plans = () => {
 
     fetchLessonPlans();
   }, []);
-
-  // Evita que o componente quebre antes dos hooks serem processados
-  if (isAuthorized === null) {
-    return <p>Carregando...</p>;
-  }
-
-  if (!isAuthorized) {
-    return <p>Acesso negado.</p>;
-  }
 
   const handleCreateLessonPlan = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

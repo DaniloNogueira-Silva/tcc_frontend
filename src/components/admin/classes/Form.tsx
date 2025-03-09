@@ -1,8 +1,8 @@
-import InputField from 'components/fields/InputField';
-import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 
 import { HttpRequest } from 'utils/http-request';
+import InputField from 'components/fields/InputField';
+import { jwtDecode } from 'jwt-decode';
 
 interface TokenPayload {
   _id: string;
@@ -85,7 +85,6 @@ const Form = () => {
         teacherId,
         selectedLessonPlan,
       );
-      console.log('Aula criada com sucesso:', result);
     } catch (error) {
       console.error('Erro ao criar aula:', error);
       alert('Ocorreu um erro ao criar a aula.');

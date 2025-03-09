@@ -14,7 +14,6 @@ const useTeacherAuth = () => {
       if (typeof window === 'undefined') return;
 
       const isTeacher = await jwtService.getUserRole();
-      console.log('isTeacher', isTeacher);
       if (!isTeacher) {
         console.warn('Acesso negado. Redirecionando para página inicial...');
         router.push('/auth/sign-in');

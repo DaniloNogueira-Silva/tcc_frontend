@@ -37,11 +37,8 @@ export class HttpRequest {
         role,
       });
 
-      console.log('response', response);
       return response.data;
     } catch (error) {
-      console.log('error', error);
-
       throw new Error('Ocorreu um erro ao criar o usuário', error);
     }
   }
@@ -95,7 +92,6 @@ export class HttpRequest {
         },
       );
 
-      console.log('response', response);
       return response.data;
     } catch (error) {
       console.error('Erro ao criar aula:', error);

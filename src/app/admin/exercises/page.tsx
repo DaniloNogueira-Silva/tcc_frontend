@@ -1,10 +1,12 @@
 'use client';
-import Card from 'components/admin/exercises/Card';
-import QuestionForm from 'components/admin/exercises/QuestionForm';
-import General from 'components/admin/profile/General';
-import ModalButton from 'components/button/ModalButton';
+
 import { useEffect, useState } from 'react';
+
+import Card from 'components/admin/exercises/Card';
+import General from 'components/admin/profile/General';
 import { HttpRequest } from 'utils/http-request';
+import ModalButton from 'components/button/ModalButton';
+import QuestionForm from 'components/admin/exercises/QuestionForm';
 
 export interface IExercise {
   _id: string;
@@ -24,7 +26,6 @@ const Exercises = () => {
     const fetchAllExercises = async () => {
       try {
         const allExercises = await httpRequest.getAllExercises();
-        console.log('Exercises obtidas:', allExercises);
         setExercises(allExercises);
       } catch (error) {
         console.error('Erro ao carregar aulas:', error);

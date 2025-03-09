@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import General from 'components/admin/profile/General';
-import ModalButton from 'components/button/ModalButton';
-import Form from 'components/admin/classes/Form';
-import { HttpRequest } from 'utils/http-request';
+import { useEffect, useState } from 'react';
+
 import Card from 'components/admin/classes/Card';
+import Form from 'components/admin/classes/Form';
+import General from 'components/admin/profile/General';
+import { HttpRequest } from 'utils/http-request';
+import ModalButton from 'components/button/ModalButton';
 
 export interface IClass {
   _id: string;
@@ -23,7 +24,6 @@ const Classes = () => {
     const fetchAllClasses = async () => {
       try {
         const allClasses = await httpRequest.getAllClasses();
-        console.log('Classes obtidas:', allClasses);
         setClasses(allClasses);
       } catch (error) {
         console.error('Erro ao carregar aulas:', error);

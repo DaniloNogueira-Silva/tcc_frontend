@@ -29,7 +29,13 @@ export class JwtService {
 
   async getUserRole() {
     const decodedToken = await this.decodeToken();
-    console.log('decodedToken', decodedToken);
-    return decodedToken?.role || false;
+
+    if (decodedToken?.role === 'TEACHER') {
+      return true;
+    } else if (decodedToken?.role === 'STUDENT') {
+      return false;
+    } else {
+      return false;
+    }
   }
 }
