@@ -15,7 +15,7 @@ export interface IExercise {
   answer: string;
   showAnswer: boolean;
   teacher_id: string;
-  options?: string[];
+  options?: any[];
 }
 
 const Exercises = () => {

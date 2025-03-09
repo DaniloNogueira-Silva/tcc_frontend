@@ -260,7 +260,7 @@ export class HttpRequest {
     answer: string,
     showAnswer: boolean,
     teacher_id: string,
-    options?: string[],
+    options?: any[],
   ): Promise<any> {
     try {
       const token = this.getToken();
