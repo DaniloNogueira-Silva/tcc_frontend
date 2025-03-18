@@ -65,7 +65,7 @@ const Exercises = () => {
               &times;
             </button>
             <h3 className="mb-4 text-xl font-bold">Criar Exercício</h3>
-            <QuestionForm onClose={() => setIsFormOpen(false)} />
+            <QuestionForm reloadOnSubmit={true} onClose={() => setIsFormOpen(false)} />
           </div>
         </div>
       )}

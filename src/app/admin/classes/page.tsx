@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import Card from 'components/admin/classes/Card';
 import ClassForm from 'components/admin/classes/Form';
 import General from 'components/admin/profile/General';
-import QuestionForm from 'components/admin/exercises/Form';
 import { HttpRequest } from 'utils/http-request';
 
 
@@ -58,7 +57,6 @@ const Classes = () => {
         </div>
       </div>
 
-      {/* Modal manual para criação de aula */}
       {isFormOpen && (
         <div className="bg-black fixed inset-0 z-50 flex items-center justify-center bg-opacity-50">
           <div className="relative w-96 rounded-lg bg-white p-6 shadow-lg">
