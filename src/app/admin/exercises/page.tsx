@@ -5,8 +5,7 @@ import { useEffect, useState } from 'react';
 import Card from 'components/admin/exercises/Card';
 import General from 'components/admin/profile/General';
 import { HttpRequest } from 'utils/http-request';
-import ModalButton from 'components/button/ModalButton';
-import QuestionForm from 'components/admin/exercises/QuestionForm';
+import QuestionForm from 'components/admin/exercises/Form';
 
 export interface IExercise {
   _id: string;
@@ -20,6 +19,7 @@ export interface IExercise {
 
 const Exercises = () => {
   const [exercises, setExercises] = useState<IExercise[]>([]);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const httpRequest = new HttpRequest();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Exercises = () => {
         const allExercises = await httpRequest.getAllExercises();
         setExercises(allExercises);
       } catch (error) {
-        console.error('Erro ao carregar aulas:', error);
+        console.error('Erro ao carregar exercícios:', error);
       }
     };
 
@@ -38,13 +38,13 @@ const Exercises = () => {
   return (
     <div className="flex w-full flex-col gap-5">
       <div className="mt-3 flex items-center justify-between">
-        <h1 className="text-2xl font-bold"></h1>
-        <ModalButton buttonText="Criar exercício" modalTitle="Criar exercício">
-          <div className="p-4">
-            <h3 className="mb-4 text-xl font-bold">Criar Aula</h3>
-            <QuestionForm />
-          </div>
-        </ModalButton>
+        <h1 className="text-2xl font-bold">Exercícios</h1>
+        <button
+          className="rounded-lg bg-brand-500 px-4 py-2 text-white transition hover:bg-brand-600"
+          onClick={() => setIsFormOpen(true)}
+        >
+          Criar exercício
+        </button>
       </div>
 
       <Card exercisesData={exercises} />
@@ -54,6 +54,21 @@ const Exercises = () => {
           <General />
         </div>
       </div>
+
+      {isFormOpen && (
+        <div className="bg-black fixed inset-0 z-50 flex items-center justify-center bg-opacity-50">
+          <div className="relative w-96 rounded-lg bg-white p-6 shadow-lg">
+            <button
+              onClick={() => setIsFormOpen(false)}
+              className="absolute right-2 top-2 text-gray-500 hover:text-gray-700"
+            >
+              &times;
+            </button>
+            <h3 className="mb-4 text-xl font-bold">Criar Exercício</h3>
+            <QuestionForm onClose={() => setIsFormOpen(false)} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

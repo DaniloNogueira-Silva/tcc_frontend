@@ -116,6 +116,63 @@ export class HttpRequest {
     }
   }
 
+  async updateClass(
+    id: string,
+    name: string,
+    due_date: string,
+    description: string,
+    links: string,
+    points: number,
+    type: string,
+    teacher_id: string,
+    lesson_plan_id: string,
+  ): Promise<any> {
+    try {
+      const token = this.getToken();
+
+      const response = await axios.patch(
+        `${this.baseUrl}/classes/${id}`,
+        {
+          name,
+          due_date,
+          description,
+          links,
+          points,
+          type,
+          teacher_id,
+          lesson_plan_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao criar aula:', error);
+      throw new Error('Ocorreu um erro ao criar a aula: ' + error);
+    }
+  }
+
+  async deleteClass(id: string) {
+    try {
+      const token = this.getToken();
+
+      await axios.delete(`${this.baseUrl}/classes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return;
+    } catch (error) {
+      console.error('Erro ao deletar aula:', error);
+      throw new Error('Ocorreu um erro ao deletar aula: ' + error);
+    }
+  }
+
   async getUser() {
     try {
       const token = this.getToken();
@@ -286,6 +343,108 @@ export class HttpRequest {
     } catch (error) {
       console.error('Erro ao criar exercício:', error);
       throw new Error('Ocorreu um erro ao criar exercício: ' + error);
+    }
+  }
+
+  async updateExercise(
+    id: string,
+    statement: string,
+    type: string,
+    answer: string,
+    showAnswer: boolean,
+    teacher_id: string,
+    options?: any[],
+  ): Promise<any> {
+    try {
+      const token = this.getToken();
+
+      const response = await axios.patch(
+        `${this.baseUrl}/exercises/${id}`,
+        {
+          statement,
+          type,
+          answer,
+          showAnswer,
+          options,
+          teacher_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao criar exercício:', error);
+      throw new Error('Ocorreu um erro ao criar exercício: ' + error);
+    }
+  }
+
+  async deleteExercise(id: string) {
+    try {
+      const token = this.getToken();
+
+      await axios.delete(`${this.baseUrl}/exercises/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return;
+    } catch (error) {
+      console.error('Erro ao deletar exercício:', error);
+      throw new Error('Ocorreu um erro ao deletar exercício: ' + error);
+    }
+  }
+
+  async createClassExercise(
+    class_id: string,
+    exercise_id: string,
+  ): Promise<any> {
+    try {
+      const token = this.getToken();
+
+      const response = await axios.post(
+        `${this.baseUrl}/class-exercise`,
+        {
+          class_id,
+          exercise_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao criar relação exercício/aula:', error);
+      throw new Error('Ocorreu um erro ao criar relação exercício/aula: ' + error);
+    }
+  }
+
+  async getClassExercise(exercise_id: string): Promise<any> {
+    try {
+      const token = this.getToken();
+
+      const response = await axios.get(
+        `${this.baseUrl}/class-exercise/exercise/${exercise_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao encontrar exercício na aula:', error);
+      throw new Error(
+        'Ocorreu um erro ao encontrar exercício na aula: ' + error,
+      );
     }
   }
 }

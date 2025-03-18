@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { BsPencil, BsTrash } from 'react-icons/bs';
 import { IClass } from 'app/admin/classes/page';
+import { HttpRequest } from 'utils/http-request';
+import ClassForm from './Form';
 
 interface CardProps {
   classesData: IClass[];
@@ -19,6 +22,18 @@ const formatDate = (isoDate?: string): string => {
 };
 
 const Card = ({ classesData }: CardProps) => {
+  const [deleteClassId, setDeleteClassId] = useState<string | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [editClass, setEditClass] = useState<IClass | null>(null);
+  const httpRequest = new HttpRequest();
+
+  const handleDeleteClass = async () => {
+    if (!deleteClassId) return;
+    await httpRequest.deleteClass(deleteClassId);
+    setDeleteClassId(null);
+    setTimeout(() => window.location.reload(), 500);
+  };
+
   return (
     <div className="flex w-full flex-col gap-5 p-4 shadow-shadow-500 transition-all dark:bg-navy-700 dark:shadow-none lg:grid lg:grid-cols-12">
       <div className="z-20 col-span-12 grid grid-cols-1 gap-5 p-4 shadow-shadow-500 transition-all dark:bg-navy-700 dark:shadow-none md:grid-cols-3">
@@ -26,7 +41,9 @@ const Card = ({ classesData }: CardProps) => {
           classesData.map((classItem) => (
             <div
               key={classItem._id}
-              className="flex h-full w-full flex-col rounded-lg bg-white p-4 dark:!bg-navy-800 dark:text-white dark:shadow-none"
+              className="flex h-full w-full flex-col rounded-lg bg-white p-4 dark:!bg-navy-800 dark:text-white dark:shadow-none relative"
+              onMouseEnter={() => setHoveredCard(classItem._id)}
+              onMouseLeave={() => setHoveredCard(null)}
             >
               <div className="mb-3">
                 <p className="text-lg font-bold text-navy-700 dark:text-white">
@@ -46,9 +63,20 @@ const Card = ({ classesData }: CardProps) => {
                     Data de entrega: {formatDate(classItem.due_date)}
                   </p>
                 </div>
-                <button className="rounded-lg bg-brand-900 px-4 py-2 text-base font-medium text-white transition-all duration-200 hover:bg-brand-800 active:bg-brand-700 dark:bg-brand-400 dark:hover:bg-white/20 dark:active:bg-white/10">
-                  Ação
-                </button>
+                <div className={`flex space-x-2 transition-opacity duration-300 ${hoveredCard === classItem._id ? 'opacity-100' : 'opacity-0'}`}>
+                  <button 
+                    onClick={() => setEditClass(classItem)}
+                    className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition flex items-center"
+                  >
+                    <BsPencil size={16} />
+                  </button>
+                  <button
+                    onClick={() => setDeleteClassId(classItem._id)}
+                    className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition flex items-center"
+                  >
+                    <BsTrash size={16} />
+                  </button>
+                </div>
               </div>
             </div>
           ))
@@ -58,6 +86,37 @@ const Card = ({ classesData }: CardProps) => {
           </p>
         )}
       </div>
+
+      {deleteClassId && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-lg font-semibold mb-4">Tem certeza que deseja excluir?</h2>
+            <div className="flex justify-end space-x-2">
+              <button
+                onClick={() => setDeleteClassId(null)}
+                className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleDeleteClass}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+              >
+                Confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {editClass && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-lg font-semibold mb-4">Editar Aula</h2>
+            <ClassForm initialData={editClass} onClose={() => setEditClass(null)} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
