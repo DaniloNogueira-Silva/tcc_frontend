@@ -23,12 +23,8 @@ const ProfileOverview = () => {
   }, []);
 
   return (
-    <div className="flex w-full flex-col gap-5 lg:gap-5">
-      <div className="w-full mt-3 flex h-fit flex-col gap-5 lg:grid lg:grid-cols-12">
-        <div className="col-span-4 lg:!mb-0">
-          <Banner user={user} />
-        </div>
-      </div>
+    <div className="flex w-full justify-center items-center">
+      <Banner user={user} />
     </div>
   );
 };

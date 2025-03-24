@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 
 import Card from 'components/admin/exercises/Card';
-import General from 'components/admin/profile/General';
 import { HttpRequest } from 'utils/http-request';
 import QuestionForm from 'components/admin/exercises/Form';
 
@@ -48,12 +47,6 @@ const Exercises = () => {
       </div>
 
       <Card exercisesData={exercises} />
-
-      <div className="mb-4 grid h-full grid-cols-1 gap-5 lg:grid-cols-12">
-        <div className="col-span-5 lg:col-span-6">
-          <General />
-        </div>
-      </div>
 
       {isFormOpen && (
         <div className="bg-black fixed inset-0 z-50 flex items-center justify-center bg-opacity-50">
