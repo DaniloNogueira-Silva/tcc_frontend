@@ -60,13 +60,14 @@ export class HttpRequest {
     }
   }
 
-  async createClass(
+  async createLesson(
     name: string,
     due_date: string,
-    description: string,
+    content: string,
     links: string,
     points: number,
     type: string,
+    grade: number,
     teacher_id: string,
     lesson_plan_id: string,
   ): Promise<any> {
@@ -74,14 +75,15 @@ export class HttpRequest {
       const token = this.getToken();
 
       const response = await axios.post(
-        `${this.baseUrl}/classes`,
+        `${this.baseUrl}/lessons`,
         {
           name,
           due_date,
-          description,
+          content,
           links,
           points,
           type,
+          grade,
           teacher_id,
           lesson_plan_id,
         },
@@ -99,11 +101,11 @@ export class HttpRequest {
     }
   }
 
-  async getAllClasses() {
+  async getAllLessons() {
     try {
       const token = this.getToken();
 
-      const response = await axios.get(`${this.baseUrl}/classes`, {
+      const response = await axios.get(`${this.baseUrl}/lessons`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -116,14 +118,15 @@ export class HttpRequest {
     }
   }
 
-  async updateClass(
+  async updateLesson(
     id: string,
     name: string,
     due_date: string,
-    description: string,
+    content: string,
     links: string,
     points: number,
     type: string,
+    grade: number,
     teacher_id: string,
     lesson_plan_id: string,
   ): Promise<any> {
@@ -131,14 +134,15 @@ export class HttpRequest {
       const token = this.getToken();
 
       const response = await axios.patch(
-        `${this.baseUrl}/classes/${id}`,
+        `${this.baseUrl}/lessons/${id}`,
         {
           name,
           due_date,
-          description,
+          content,
           links,
           points,
           type,
+          grade,
           teacher_id,
           lesson_plan_id,
         },
@@ -156,11 +160,11 @@ export class HttpRequest {
     }
   }
 
-  async deleteClass(id: string) {
+  async deleteLesson(id: string) {
     try {
       const token = this.getToken();
 
-      await axios.delete(`${this.baseUrl}/classes/${id}`, {
+      await axios.delete(`${this.baseUrl}/lessons/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -311,6 +315,23 @@ export class HttpRequest {
     }
   }
 
+  async getExerciseById(id: string) {
+    try {
+      const token = this.getToken();
+
+      const response = await axios.get(`${this.baseUrl}/exercises/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao buscar exercício:', error);
+      throw new Error('Ocorreu um erro ao buscar exercício: ' + error);
+    }
+  }
+
   async createExercise(
     statement: string,
     type: string,
@@ -399,18 +420,46 @@ export class HttpRequest {
     }
   }
 
-  async createClassExercise(
-    class_id: string,
-    exercise_id: string,
+  async submitMultipleChoiceAnswer(exerciseId: string, answer: string) {
+    try {
+      const token = this.getToken();
+
+      await axios.post(
+        `${this.baseUrl}/exercises/${exerciseId}/multiple-choice`,
+        { answer },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      return;
+    } catch (error) {
+      console.error(
+        'Erro ao coletar resposta do exercício de multipla escolha:',
+        error,
+      );
+      throw new Error(
+        'Ocorreu um erro ao coletar resposta do exercício de multipla escolha: ' +
+          error,
+      );
+    }
+  }
+
+  async teacherCorretion(
+    id: string,
+    final_grade: number,
+    points: number,
   ): Promise<any> {
     try {
       const token = this.getToken();
 
-      const response = await axios.post(
-        `${this.baseUrl}/class-exercise`,
+      const response = await axios.patch(
+        `${this.baseUrl}/exercises/${id}/teacher-correction`,
         {
-          class_id,
-          exercise_id,
+          final_grade,
+          points,
         },
         {
           headers: {
@@ -421,29 +470,9 @@ export class HttpRequest {
 
       return response.data;
     } catch (error) {
-      console.error('Erro ao criar relação exercício/aula:', error);
-      throw new Error('Ocorreu um erro ao criar relação exercício/aula: ' + error);
-    }
-  }
-
-  async getClassExercise(exercise_id: string): Promise<any> {
-    try {
-      const token = this.getToken();
-
-      const response = await axios.get(
-        `${this.baseUrl}/class-exercise/exercise/${exercise_id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      return response.data;
-    } catch (error) {
-      console.error('Erro ao encontrar exercício na aula:', error);
+      console.error('Erro ao atualizar nota do aluno no exercício:', error);
       throw new Error(
-        'Ocorreu um erro ao encontrar exercício na aula: ' + error,
+        'Ocorreu um erro ao atualizar nota do aluno no exercício: ' + error,
       );
     }
   }

@@ -6,35 +6,17 @@ import QuestionForm from './Form';
 
 interface CardProps {
   exercisesData: IExercise[];
+  showActions?: boolean;
 }
 
-const Card = ({ exercisesData }: CardProps) => {
+const ExerciseCard = ({ exercisesData, showActions = true }: CardProps) => {
   const [deleteExerciseId, setDeleteExerciseId] = useState<string | null>(null);
   const [editExercise, setEditExercise] = useState<IExercise | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-  const [isAssociated, setIsAssociated] = useState(false); // Estado para verificar associação
   const httpRequest = new HttpRequest();
-
-  // Função para verificar se o exercício está associado a alguma aula
-  const checkAssociation = async (exerciseId: string) => {
-    try {
-      const isAssociated = await httpRequest.getClassExercise(exerciseId);
-      setIsAssociated(isAssociated); // Diretamente usa o valor true/false
-    } catch (error) {
-      console.error('Erro ao verificar associação:', error);
-      setIsAssociated(false); // Caso haja erro, assumimos que não está associado
-    }
-  };
 
   const handleDeleteExercise = async () => {
     if (!deleteExerciseId) return;
-
-    const confirmMessage = isAssociated
-      ? 'Este exercício está associado a uma aula. Tem certeza que deseja excluí-lo?'
-      : 'Tem certeza que deseja excluir?';
-
-    const confirmDelete = window.confirm(confirmMessage);
-    if (!confirmDelete) return; // Se o usuário cancelar, não deleta
 
     try {
       await httpRequest.deleteExercise(deleteExerciseId);
@@ -92,27 +74,30 @@ const Card = ({ exercisesData }: CardProps) => {
                   Mostrar resposta: {exerciseItem.showAnswer ? 'Sim' : 'Não'}
                 </p>
               </div>
-              <div
-                className={`flex space-x-2 transition-opacity duration-300 ${
-                  hoveredCard === exerciseItem._id ? 'opacity-100' : 'opacity-0'
-                }`}
-              >
-                <button
-                  onClick={() => setEditExercise(exerciseItem)}
-                  className="flex items-center rounded-lg bg-blue-500 p-2 text-white transition hover:bg-blue-600"
+              {showActions && (
+                <div
+                  className={`flex space-x-2 transition-opacity duration-300 ${
+                    hoveredCard === exerciseItem._id
+                      ? 'opacity-100'
+                      : 'opacity-0'
+                  }`}
                 >
-                  <BsPencil size={16} />
-                </button>
-                <button
-                  onClick={() => {
-                    setDeleteExerciseId(exerciseItem._id);
-                    checkAssociation(exerciseItem._id); // Verifica a associação ao clicar
-                  }}
-                  className="flex items-center rounded-lg bg-red-500 p-2 text-white transition hover:bg-red-600"
-                >
-                  <BsTrash size={16} />
-                </button>
-              </div>
+                  <button
+                    onClick={() => setEditExercise(exerciseItem)}
+                    className="flex items-center rounded-lg bg-blue-500 p-2 text-white transition hover:bg-blue-600"
+                  >
+                    <BsPencil size={16} />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setDeleteExerciseId(exerciseItem._id);
+                    }}
+                    className="flex items-center rounded-lg bg-red-500 p-2 text-white transition hover:bg-red-600"
+                  >
+                    <BsTrash size={16} />
+                  </button>
+                </div>
+              )}
             </div>
           ))
         ) : (
@@ -142,11 +127,6 @@ const Card = ({ exercisesData }: CardProps) => {
       {deleteExerciseId && (
         <div className="bg-black fixed inset-0 z-50 flex items-center justify-center bg-opacity-50">
           <div className="w-96 rounded-lg bg-white p-6 shadow-lg">
-            <h2 className="mb-4 text-lg font-semibold">
-              {isAssociated
-                ? 'Tem certeza que deseja excluir este exercício que está em uma aula?'
-                : 'Tem certeza que deseja excluir?'}
-            </h2>
             <div className="flex justify-end space-x-2">
               <button
                 onClick={() => setDeleteExerciseId(null)}
@@ -181,4 +161,4 @@ const Card = ({ exercisesData }: CardProps) => {
   );
 };
 
-export default Card;
+export default ExerciseCard;

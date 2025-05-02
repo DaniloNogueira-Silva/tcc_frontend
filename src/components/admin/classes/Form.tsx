@@ -26,7 +26,9 @@ interface FormProps {
 const ClassForm = ({ initialData, onClose }: FormProps) => {
   const [name, setName] = useState(initialData?.name || '');
   const [dueDate, setDueDate] = useState(initialData?.due_date || '');
-  const [description, setDescription] = useState(initialData?.description || '');
+  const [description, setDescription] = useState(
+    initialData?.description || '',
+  );
   const [links, setLinks] = useState(initialData?.links || '');
   const [points, setPoints] = useState(initialData?.points || 0);
   const [type, setType] = useState(initialData?.type || '');
@@ -34,10 +36,14 @@ const ClassForm = ({ initialData, onClose }: FormProps) => {
   const [teacherId, setTeacherId] = useState<string | null>(null);
 
   const [lessonPlans, setLessonPlans] = useState<IGetLessonPlanResponse[]>([]);
-  const [selectedLessonPlan, setSelectedLessonPlan] = useState(initialData?.lesson_plan_id || '');
+  const [selectedLessonPlan, setSelectedLessonPlan] = useState(
+    initialData?.lesson_plan_id || '',
+  );
 
   const [exercises, setExercises] = useState<IExercise[]>([]);
-  const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(initialData?.exercise_id || null);
+  const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(
+    initialData?.exercise_id || null,
+  );
   const [showCreateExerciseModal, setShowCreateExerciseModal] = useState(false);
 
   const formRef = useRef<HTMLDivElement>(null);
@@ -94,7 +100,7 @@ const ClassForm = ({ initialData, onClose }: FormProps) => {
       let createdClassId = initialData?._id;
 
       if (initialData) {
-        await httpRequest.updateClass(
+        await httpRequest.updateLesson(
           initialData._id,
           name,
           dueDate,
@@ -106,7 +112,7 @@ const ClassForm = ({ initialData, onClose }: FormProps) => {
           selectedLessonPlan,
         );
       } else {
-        const createdClass = await httpRequest.createClass(
+        const createdClass = await httpRequest.createLesson(
           name,
           dueDate,
           description,
@@ -117,10 +123,6 @@ const ClassForm = ({ initialData, onClose }: FormProps) => {
           selectedLessonPlan,
         );
         createdClassId = createdClass._id;
-      }
-
-      if (createdClassId && selectedExerciseId) {
-        await httpRequest.createClassExercise(createdClassId, selectedExerciseId);
       }
 
       onClose();
@@ -142,7 +144,7 @@ const ClassForm = ({ initialData, onClose }: FormProps) => {
     <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
       <div
         ref={formRef}
-        className="relative w-96 rounded-lg bg-white dark:bg-navy-800 p-6 shadow-lg dark:text-white"
+        className="relative w-96 rounded-lg bg-white p-6 shadow-lg dark:bg-navy-800 dark:text-white"
       >
         <button
           onClick={onClose}
@@ -219,7 +221,7 @@ const ClassForm = ({ initialData, onClose }: FormProps) => {
             id="lesson_plan_id"
             value={selectedLessonPlan}
             onChange={(e) => setSelectedLessonPlan(e.target.value)}
-            className="mb-3 w-full rounded-md border border-gray-300 dark:bg-navy-700 dark:text-white p-2"
+            className="mb-3 w-full rounded-md border border-gray-300 p-2 dark:bg-navy-700 dark:text-white"
           >
             <option value="">Selecione um plano de aula</option>
             {lessonPlans.map((plan) => (
@@ -236,7 +238,7 @@ const ClassForm = ({ initialData, onClose }: FormProps) => {
             id="exercise_id"
             value={selectedExerciseId || ''}
             onChange={(e) => setSelectedExerciseId(e.target.value || null)}
-            className="mb-3 w-full rounded-md border border-gray-300 dark:bg-navy-700 dark:text-white p-2"
+            className="mb-3 w-full rounded-md border border-gray-300 p-2 dark:bg-navy-700 dark:text-white"
           >
             <option value="">Nenhum</option>
             {exercises.map((ex) => (
@@ -263,7 +265,11 @@ const ClassForm = ({ initialData, onClose }: FormProps) => {
                 : 'bg-brand-500 hover:bg-brand-600 active:bg-brand-700'
             }`}
           >
-            {loading ? 'Salvando...' : initialData ? 'Editar Aula' : 'Criar Aula'}
+            {loading
+              ? 'Salvando...'
+              : initialData
+              ? 'Editar Aula'
+              : 'Criar Aula'}
           </button>
         </form>
       </div>

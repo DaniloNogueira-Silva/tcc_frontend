@@ -9,11 +9,12 @@ import { HttpRequest } from 'utils/http-request';
 export interface IClass {
   _id: string;
   name: string;
-  description: string;
+  content: string;
   points: number;
   due_date: string;
   links: string;
   type: string;
+  grade: number;
   lesson_plan_id: string;
 }
 
@@ -25,7 +26,7 @@ const Classes = () => {
   useEffect(() => {
     const fetchAllClasses = async () => {
       try {
-        const allClasses = await httpRequest.getAllClasses();
+        const allClasses = await httpRequest.getAllLessons();
         setClasses(allClasses);
       } catch (error) {
         console.error('Erro ao carregar aulas:', error);
