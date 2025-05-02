@@ -11,14 +11,11 @@ import avatar from '/public/img/avatars/avatarSimmmple.png';
 
 const Navbar = (props: {
   onOpenSidenav: () => void;
-  brandText: string;
+  brandText?: string;
   secondary?: boolean | string;
   [x: string]: any;
 }) => {
   const { brandText } = props;
-  const [darkmode, setDarkmode] = React.useState(
-    document.body.classList.contains('dark'),
-  );
 
   const [user, setUser] = useState(null);
   const httpRequest = new HttpRequest();

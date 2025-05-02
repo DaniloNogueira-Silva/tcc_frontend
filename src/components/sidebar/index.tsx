@@ -1,37 +1,57 @@
-/* eslint-disable */
+import { FaBookOpen, FaClipboardList, FaTasks, FaUser } from "react-icons/fa";
 
-import { HiX } from 'react-icons/hi';
-import { IRoute } from 'types/navigation';
-import Links from './components/Links';
+import Link from "next/link";
+import { useState } from "react";
 
-function SidebarHorizon(props: { routes: IRoute[];[x: string]: any }) {
-  const { routes, open, setOpen } = props;
+const Sidebar = () => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div
-      className={`sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 xl:!z-0 ${open ? 'translate-x-0' : '-translate-x-96 xl:translate-x-0'
-        }`}
-    >
-      <span
-        className="absolute right-4 top-4 block cursor-pointer xl:hidden"
-        onClick={() => setOpen(false)}
+    <>
+      {/* Sidebar (responsivo com slide no mobile) */}
+      <div
+        className={`fixed top-0 left-0 h-screen w-64 bg-gray-100 text-black p-4 z-40 transition-transform duration-300 ${
+          open ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 md:static`}
       >
-        <HiX />
-      </span>
-
-      <div className="mx-[56px] mt-[50px] flex items-center">
-        <div className="ml-1 mt-1 h-2.5 font-poppins text-[26px] font-bold uppercase text-navy-700 dark:text-white font-medium">
-          EducaMais
-        </div>
+        <h2 className="text-xl font-bold mb-6">EDUCAMAIS</h2>
+        <nav className="flex flex-col space-y-4">
+          <Link href="/admin/plans" className="flex items-center gap-3 hover:text-black/70">
+            <FaBookOpen className="text-blue-500" />
+            PLANO DE AULA
+          </Link>
+          <Link href="/admin/classes" className="flex items-center gap-3 hover:text-black/70">
+            <FaTasks className="text-blue-500" />
+            ATIVIDADES
+          </Link>
+          <Link href="/admin/exercises" className="flex items-center gap-3 hover:text-black/70">
+            <FaClipboardList className="text-blue-500" />
+            EXERCÍCIOS
+          </Link>
+          <Link href="/admin/profile" className="flex items-center gap-3 hover:text-black/70">
+            <FaUser className="text-blue-500" />
+            PERFIL
+          </Link>
+        </nav>
       </div>
-      <div className="mb-7 mt-[58px] h-px" />
 
-      {/* Apenas passa `routes`, já filtrado */}
-      <ul className="mb-auto pt-1">
-        <Links routes={routes} />
-      </ul>
-
-    </div>
+      {/* Footbar - apenas ícones, cores distintas */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around bg-gray-100 text-black py-2 md:hidden">
+        <Link href="/admin/plans">
+          <FaBookOpen className="text-blue-500" size={24} />
+        </Link>
+        <Link href="/admin/classes">
+          <FaTasks className="text-blue-500" size={24} />
+        </Link>
+        <Link href="/admin/exercises">
+          <FaClipboardList className="text-blue-500" size={24} />
+        </Link>
+        <Link href="/admin/profile">
+          <FaUser className="text-blue-500" size={24} />
+        </Link>
+      </div>
+    </>
   );
-}
+};
 
-export default SidebarHorizon;
+export default Sidebar;
