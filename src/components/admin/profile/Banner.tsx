@@ -10,19 +10,19 @@ const Banner = (data: { user: { name: string; role: string; email: string; _id: 
   const [statistics, setStatistics] = useState(null);
   const httpRequest = new HttpRequest();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const getStatistics = await httpRequest.getStatistics();
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const getStatistics = await httpRequest.getStatistics();
 
-        setStatistics(getStatistics);
-      } catch (error) {
-        console.error('Erro ao buscar as estatísticas:', error);
-      }
-    };
+  //       setStatistics(getStatistics);
+  //     } catch (error) {
+  //       console.error('Erro ao buscar as estatísticas:', error);
+  //     }
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
 
   return (
     <Card extra={'items-center w-full h-full p-[16px] bg-cover'}>

@@ -1,6 +1,4 @@
-import DashIcon from 'components/icons/DashIcon';
 import NavLink from 'components/link/NavLink';
-/* eslint-disable */
 import React from 'react';
 import { useCallback } from 'react';
 import { usePathname } from 'next/navigation';
@@ -18,12 +16,11 @@ export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
 
   const createLinks = (routes: RoutesType[]) => {
     return routes
-      .filter((route) => route.show !== false) // 🔥 Filtra rotas ocultas
+      .filter((route) => route.show !== false)
       .map((route, index) => {
         if (
           route.layout === '/admin' ||
-          route.layout === '/auth' ||
-          route.layout === '/rtl'
+          route.layout === '/auth'
         ) {
           return (
             <NavLink key={index} href={route.layout + '/' + route.path}>
@@ -36,7 +33,7 @@ export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
                         : 'font-medium text-gray-600'
                     }`}
                   >
-                    {route.icon ? route.icon : <DashIcon />}{' '}
+                    {route.icon}{' '}
                   </span>
                   <p
                     className={`leading-1 ml-4 flex ${
